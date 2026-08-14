@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidatura a Delegat de Classe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e1f;
+    --bg2:#0d1230;
+    --violet:#7c3aed;
+    --violet-glow:#a78bfa;
+    --gold:#f2b705;
+    --white:#f5f3ff;
+    --muted:#8b8fb3;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--white);
+    font-family:'Manrope', sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+  #stars{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6vh 6vw;
+    z-index:2;
+    perspective:1200px;
+  }
+  .eyebrow{
+    font-family:'Manrope';
+    font-weight:800;
+    letter-spacing:.35em;
+    text-transform:uppercase;
+    font-size:clamp(.65rem,1.4vw,.85rem);
+    color:var(--gold);
+    margin-bottom:1.6rem;
+    opacity:0;
+    animation:fadeUp .8s ease forwards .1s;
+  }
+  .hero h1{
+    font-family:'Unbounded', sans-serif;
+    font-weight:900;
+    font-size:clamp(2.4rem, 8vw, 6rem);
+    line-height:1.02;
+    letter-spacing:-.02em;
+    background:linear-gradient(180deg,#ffffff 10%, var(--violet-glow) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 0 60px rgba(124,58,237,.35);
+  }
+  .hero h1 span{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(40px) rotateX(-40deg);
+    animation:letterIn .7s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .hero p.sub{
+    margin-top:1.8rem;
+    max-width:42ch;
+    color:var(--muted);
+    font-size:clamp(1rem,1.6vw,1.2rem);
+    font-weight:500;
+    opacity:0;
+    animation:fadeUp .8s ease forwards 1.4s;
+  }
+  .cta{
+    margin-top:2.6rem;
+    display:inline-flex;
+    align-items:center;
+    gap:.6rem;
+    background:linear-gradient(135deg,var(--violet),#5b21b6);
+    color:#fff;
+    font-family:'Unbounded';
+    font-weight:600;
+    font-size:.95rem;
+    padding:1rem 2.2rem;
+    border-radius:100px;
+    text-decoration:none;
+    box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 20px 60px -10px rgba(124,58,237,.6);
+    opacity:0;
+    animation:fadeUp .8s ease forwards 1.7s;
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .cta:hover{ transform:translateY(-3px) scale(1.03); box-shadow:0 0 0 1px rgba(255,255,255,.15), 0 25px 70px -8px rgba(124,58,237,.8);}
+
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
+  @keyframes letterIn{ to{opacity:1; transform:translateY(0) rotateX(0);} }
+
+  /* ---------- 3D ORB (signature element) ---------- */
+  .orb-wrap{
+    width:min(60vw, 320px);
+    height:min(60vw, 320px);
+    margin:3.5rem auto 1rem;
+    perspective:900px;
+    opacity:0;
+    animation:fadeUp 1s ease forwards .5s;
+  }
+  .orb{
+    width:100%; height:100%;
+    position:relative;
+    transform-style:preserve-3d;
+    animation:spin 16s linear infinite;
+  }
+  .ring{
+    position:absolute; inset:0;
+    border-radius:50%;
+    border:1.5px solid rgba(167,139,250,.55);
+    box-shadow:0 0 24px rgba(124,58,237,.35) inset, 0 0 24px rgba(124,58,237,.25);
+  }
+  .ring:nth-child(1){ transform:rotateX(90deg); }
+  .ring:nth-child(2){ transform:rotateY(72deg) rotateX(70deg); border-color:rgba(242,183,5,.45); }
+  .ring:nth-child(3){ transform:rotateY(144deg) rotateX(70deg); }
+  .ring:nth-child(4){ transform:rotateY(216deg) rotateX(70deg); border-color:rgba(242,183,5,.45); }
+  .ring:nth-child(5){ transform:rotateY(288deg) rotateX(70deg); }
+  .orb-core{
+    position:absolute; inset:32%;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #c4b5fd, var(--violet) 55%, #3b0a91 100%);
+    box-shadow:0 0 60px 10px rgba(124,58,237,.65), 0 0 120px 30px rgba(124,58,237,.25);
+  }
+  @keyframes spin{ from{transform:rotateY(0deg) rotateX(8deg);} to{transform:rotateY(360deg) rotateX(8deg);} }
+  @media(prefers-reduced-motion:reduce){
+    .orb{ animation:none; }
+    .hero h1 span, .eyebrow, .hero p.sub, .cta, .orb-wrap{ animation:none; opacity:1; transform:none;}
+  }
+
+  .scroll-hint{
+    position:absolute; bottom:2.4rem; left:50%; transform:translateX(-50%);
+    font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted);
+    display:flex; flex-direction:column; align-items:center; gap:.5rem;
+  }
+  .scroll-hint::after{
+    content:''; width:1px; height:34px; background:linear-gradient(var(--violet-glow), transparent);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:.2;} 50%{opacity:1;} }
+
+  /* ---------- SECTIONS ---------- */
+  section.block{
+    position:relative;
+    z-index:2;
+    max-width:900px;
+    margin:0 auto;
+    padding:14vh 6vw;
+  }
+  .tag{
+    display:inline-block;
+    font-family:'Unbounded';
+    font-weight:600;
+    font-size:.7rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--gold);
+    border:1px solid rgba(242,183,5,.35);
+    padding:.5rem 1rem;
+    border-radius:100px;
+    margin-bottom:1.6rem;
+  }
+  .block h2{
+    font-family:'Unbounded';
+    font-weight:800;
+    font-size:clamp(1.7rem, 4vw, 2.8rem);
+    line-height:1.15;
+    margin-bottom:1.4rem;
+    letter-spacing:-.01em;
+  }
+  .block p{
+    color:var(--muted);
+    font-size:clamp(1rem, 1.4vw, 1.15rem);
+    line-height:1.7;
+    max-width:62ch;
+  }
+  .reveal{ opacity:0; transform:translateY(50px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- EPIC STATEMENT SECTION ---------- */
+  .statement{
+    position:relative; z-index:2;
+    min-height:70vh;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    padding:8vh 6vw;
+  }
+  .statement .box{
+    max-width:900px;
+  }
+  .statement .tag{ margin-bottom:2rem; }
+  .statement h2{
+    font-family:'Unbounded';
+    font-weight:900;
+    font-size:clamp(2rem, 6.2vw, 4.4rem);
+    line-height:1.08;
+    background:linear-gradient(120deg, var(--gold), #fff 40%, var(--violet-glow) 80%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 0 40px rgba(242,183,5,.25));
+  }
+
+  /* ---------- NETWORK DIAGRAM ---------- */
+  .network{
+    position:relative; z-index:2;
+    max-width:1000px; margin:0 auto; padding:6vh 6vw 14vh;
+  }
+  .net-grid{
+    margin-top:3.5rem;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(190px,1fr));
+    gap:1.1rem;
+  }
+  .net-card{
+    background:linear-gradient(160deg, rgba(124,58,237,.14), rgba(124,58,237,.02));
+    border:1px solid rgba(124,58,237,.28);
+    border-radius:18px;
+    padding:1.6rem 1.4rem;
+    transform-style:preserve-3d;
+    transition:transform .4s ease, border-color .4s ease, background .4s ease;
+  }
+  .net-card:hover{
+    transform:translateY(-6px) rotateX(4deg);
+    border-color:rgba(242,183,5,.5);
+    background:linear-gradient(160deg, rgba(124,58,237,.22), rgba(124,58,237,.04));
+  }
+  .net-card .dot{
+    width:10px; height:10px; border-radius:50%;
+    background:var(--gold); box-shadow:0 0 12px var(--gold);
+    margin-bottom:.9rem;
+  }
+  .net-card h3{
+    font-family:'Unbounded'; font-size:1rem; font-weight:600; margin-bottom:.5rem;
+  }
+  .net-card p{ color:var(--muted); font-size:.9rem; line-height:1.55; }
+
+  /* ---------- FOOTER CTA ---------- */
+  footer{
+    position:relative; z-index:2;
+    text-align:center;
+    padding:12vh 6vw 8vh;
+  }
+  footer h2{
+    font-family:'Unbounded'; font-weight:800;
+    font-size:clamp(1.7rem,4vw,2.6rem);
+    margin-bottom:1.2rem;
+  }
+  footer p{ color:var(--muted); max-width:50ch; margin:0 auto 2.2rem; }
+  .foot-note{ margin-top:3rem; font-size:.75rem; color:#565a80; letter-spacing:.08em; }
+
+  @media (max-width:600px){
+    section.block, .network{ padding-left:7vw; padding-right:7vw; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Candidatura · Delegat de Classe</div>
+  <h1 id="heroTitle"></h1>
+
+  <div class="orb-wrap">
+    <div class="orb">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="orb-core"></div>
+    </div>
+  </div>
+
+  <p class="sub">Aquesta vegada no és cap broma. És una candidatura de veritat, per representar-vos de veritat.</p>
+  <a class="cta" href="#perque">Descobreix per què ↓</a>
+  <div class="scroll-hint">Continua</div>
+</section>
+
+<!-- PER QUÈ -->
+<section id="perque" class="block reveal">
+  <div class="tag">Per què</div>
+  <h2>Des de petit volia ser delegat</h2>
+  <p>
+    Sempre m'ha fet il·lusió, però fins ara ho deia mig en broma, com un joc més. Aquest curs és diferent:
+    m'hi presento seriosament, sense bromes, perquè crec que puc fer alguna cosa bona per la classe
+    i vull que en confieu.
+  </p>
+</section>
+
+<!-- DEURE / STATEMENT ÈPIC -->
+<section class="statement">
+  <div class="box reveal">
+    <div class="tag">El meu deure</div>
+    <h2>EL MEU DEURE MÉS IMPORTANT<br>SERÀ SER EL PORTAVEU<br>DE TOTA LA CLASSE</h2>
+  </div>
+</section>
+
+<!-- XARXA DE COMUNICACIÓ -->
+<section class="network">
+  <div class="reveal">
+    <div class="tag">La xarxa</div>
+    <h2 style="font-family:'Unbounded';font-weight:800;font-size:clamp(1.7rem,4vw,2.8rem);margin-bottom:1rem;">Un canal obert per a tothom</h2>
+    <p style="color:var(--muted);font-size:1.1rem;line-height:1.7;max-width:62ch;">
+      Crearé xats globals i privats connectant les classes A, B i C, amb els professors inclosos si ells volen participar-hi.
+      Com a delegat, qualsevol problema que tingueu podrà arribar a la professora a través meu.
+    </p>
+  </div>
+
+  <div class="net-grid">
+    <div class="net-card reveal">
+      <div class="dot"></div>
+      <h3>Xat Classe A</h3>
+      <p>Espai propi per a la classe A, per parlar del dia a dia.</p>
+    </div>
+    <div class="net-card reveal">
+      <div class="dot"></div>
+      <h3>Xat Classe B</h3>
+      <p>Espai propi per a la classe B, sempre obert.</p>
+    </div>
+    <div class="net-card reveal">
+      <div class="dot"></div>
+      <h3>Xat Classe C</h3>
+      <p>Espai propi per a la classe C, per no perdre res.</p>
+    </div>
+    <div class="net-card reveal">
+      <div class="dot"></div>
+      <h3>Xat Global</h3>
+      <p>Les tres classes connectades en un mateix canal.</p>
+    </div>
+    <div class="net-card reveal">
+      <div class="dot"></div>
+      <h3>Amb els professors</h3>
+      <p>Els professors hi poden entrar si volen.</p>
+    </div>
+    <div class="net-card reveal">
+      <div class="dot"></div>
+      <h3>Canal privat</h3>
+      <p>Per parlar-me d'un problema en privat, sense exposar-lo davant de tothom.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DEMOCRÀCIA -->
+<section class="statement">
+  <div class="box reveal">
+    <div class="tag">Com decidiré</div>
+    <h2>TOTES LES MEVES DECISIONS<br>ES BASARAN EN LA DEMOCRÀCIA,<br>PER VOTACIONS</h2>
+  </div>
+</section>
+
+<footer>
+  <div class="reveal">
+    <h2>El teu vot és la teva veu</h2>
+    <p>Si em voteu delegat, la classe tindrà algú que escolta, que ho porta a la professora i que decideix amb vosaltres, no per vosaltres.</p>
+    <a class="cta" href="#perque">Torna a dalt ↑</a>
+  </div>
+  <div class="foot-note">CANDIDATURA A DELEGAT DE CLASSE</div>
+</footer>
+
+<script>
+// --- Hero title split into animated letters ---
+const title = "LA VEU DE\nLA CLASSE";
+const heroTitle = document.getElementById('heroTitle');
+let delay = 0.3;
+title.split('').forEach((ch)=>{
+  const span = document.createElement('span');
+  if(ch === '\n'){
+    heroTitle.appendChild(document.createElement('br'));
+    return;
+  }
+  span.textContent = ch === ' ' ? '\u00A0' : ch;
+  span.style.animationDelay = delay + 's';
+  delay += 0.035;
+  heroTitle.appendChild(span);
+});
+
+// --- Starfield canvas ---
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let w, h, stars = [];
+function resize(){
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const STAR_COUNT = 140;
+for(let i=0;i<STAR_COUNT;i++){
+  stars.push({
+    x: Math.random()*w,
+    y: Math.random()*h,
+    r: Math.random()*1.4 + 0.3,
+    speed: Math.random()*0.15 + 0.02,
+    tw: Math.random()*Math.PI*2
+  });
+}
+
+function drawStars(){
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = '#0a0e1f';
+  for(const s of stars){
+    s.tw += 0.02;
+    const alpha = 0.4 + Math.sin(s.tw)*0.4;
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(197,183,255,${Math.max(0,alpha)})`;
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    ctx.fill();
+    s.y += s.speed;
+    if(s.y > h){ s.y = 0; s.x = Math.random()*w; }
+  }
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// --- Scroll reveal ---
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
